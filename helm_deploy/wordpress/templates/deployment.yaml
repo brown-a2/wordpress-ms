@@ -40,7 +40,8 @@ spec:
 
       volumes:
         - name: wordpress-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: wordpress-data-pvc
         - name: nginx-config-volume
           configMap:
             name: nginx-config
