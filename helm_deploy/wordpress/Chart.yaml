@@ -1,0 +1,27 @@
+# Chart.yaml
+
+apiVersion: v2
+name: wordpress-ms-prod
+description: A Helm chart for deploying WordPress with Nginx (as a sidecar) and MariaDB on Kubernetes
+type: application
+version: 0.1.0
+appVersion: "6.0"
+
+maintainers:
+  - name: brown-a2
+
+keywords:
+  - wordpress
+  - nginx
+  - mariadb
+  - kubernetes
+  - helm
+  - k3s
+
+home: https://github.com/brown-a2
+sources:
+  - https://wordpress.org
+  - https://nginx.org
+  - https://mariadb.org
+
+icon: https://upload.wikimedia.org/wikipedia/commons/2/20/WordPress_logo.svg

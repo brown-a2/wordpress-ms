@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress-ms
+  namespace: wordpress-ms-prod
+  labels:
+    app: wordpress-ms
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wordpress-ms
+  template:
+    metadata:
+      labels:
+        app: wordpress-ms
+    spec:
+      containers:
+        - name: wordpress
+          image: browna2/ox-build-wordpress:latest
+          ports:
+            - containerPort: 9000
+          envFrom:
+            - secretRef:
+                name: wordpress-secrets
+          volumeMounts:
+            - name: wordpress-data
+              mountPath: /var/www/html
+
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: nginx-config-volume
+              mountPath: /etc/nginx/nginx.conf
+              subPath: nginx.conf
+            - name: wordpress-data
+              mountPath: /var/www/html
+
+      volumes:
+        - name: wordpress-data
+          persistentVolumeClaim:
+            claimName: wordpress-data-pvc
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: wordpress-ms-prod
+  labels:
+    app: mariadb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mariadb
+  template:
+    metadata:
+      labels:
+        app: mariadb
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:10.5
+          ports:
+            - containerPort: 3306
+          envFrom:
+            - secretRef:
+                name: mariadb-secrets
+          volumeMounts:
+            - name: mariadb-data
+              mountPath: /var/lib/mysql
+
+      volumes:
+        - name: mariadb-data
+          persistentVolumeClaim:
+            claimName: mariadb-data-pvc

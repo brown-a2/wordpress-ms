@@ -1,0 +1,93 @@
+{
+    "name": "wp/multisite",
+    "type": "project",
+    "license": "MIT",
+    "description": "Ox-build multisite required packages",
+    "authors": [],
+    "keywords": [
+        "wordpress",
+        "stack",
+        "composer"
+    ],
+    "support": {},
+    "config": {
+        "allow-plugins": true
+    },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://wpackagist.org"
+        },
+        {
+            "type": "composer",
+            "url": "https://packagist.org"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ministryofjustice/wp-gov-uk-notify"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ministryofjustice/wp-s3-uploads"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/brown-a2/herrnaset"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/brown-a2/ibento"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/brown-a2/totoro-components"
+        }
+    ],
+    "require": {
+        "php": ">=8.0",
+        "composer/installers": "^v1.7.0",
+        "vlucas/phpdotenv": "^3.0.0",
+        "oscarotero/env": "^1.1.0",
+        "wpackagist-plugin/query-monitor": "*",
+        "wpackagist-plugin/wp-force-login": "*",
+        "wpackagist-plugin/wps-hide-login": "*",
+        "ministryofjustice/wp-gov-uk-notify": "*",
+        "wpackagist-plugin/advanced-custom-fields": "*",
+        "wpackagist-plugin/ewww-image-optimizer": "*",
+        "brown-a2/herrnaset": "dev-main",
+        "brown-a2/ibento": "dev-main",
+        "brown-a2/totoro-components": "dev-main",
+        "ministryofjustice/wp-s3-uploads": "dev-main"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.0.2"
+    },
+    "extra": {
+        "installer-paths": {
+            "wordpress/wp-content/mu-plugins/{$name}/": [
+                "type:wordpress-muplugin",
+                "ministryofjustice/wp-gov-uk-notify",
+                "ministryofjustice/wp-s3-uploads"
+            ],
+            "wordpress/wp-content/plugins/{$name}/": [
+                "type:wordpress-plugin"
+            ],
+            "wordpress/wp-content/themes/herrnaset/": [
+                "brown-a2/herrnaset"
+            ],
+            "wordpress/wp-content/themes/ibento/": [
+                "brown-a2/ibento"
+            ],
+            "wordpress/wp-content/themes/{$name}/": [
+                "type:wordpress-theme"
+            ]
+        },
+        "wordpress-install-dir": "/var/www/html"
+    },
+    "scripts": {
+        "post-root-package-install": [],
+        "test": [
+            "phpcs"
+        ]
+    }
+}

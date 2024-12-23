@@ -1,0 +1,205 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+  namespace: wordpress-ms-prod
+data:
+  nginx.conf: |
+    worker_processes auto;
+
+    pid /tmp/nginx.pid; # Changed from /var/run/nginx.pid
+    error_log  /var/log/nginx/error.log;
+
+    include /etc/nginx/modules-enabled/*.conf;
+
+    events {
+        worker_connections 1024; 
+    }
+
+    http {
+        ##
+        # Basic Settings
+        ##
+
+        sendfile on;
+        tcp_nopush on;
+        types_hash_max_size 2048;
+        server_tokens off;
+
+        server_names_hash_bucket_size 64;
+        server_name_in_redirect off;
+
+        include /etc/nginx/mime.types;
+        default_type application/octet-stream;
+
+        fastcgi_buffers 16 16k; 
+        fastcgi_buffer_size 32k;
+
+        client_max_body_size 128M;
+        
+        ##
+        # SSL Settings
+        ##
+
+        ssl_protocols TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+        ssl_prefer_server_ciphers on;
+
+        ##
+        # Logging Settings
+        ##
+
+        # access_log /var/log/nginx/access.log;
+        error_log /var/log/nginx/error.log;
+
+        ##
+        # Gzip Settings
+        ##
+
+        gzip on;
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 6;
+        gzip_buffers 16 8k;
+        gzip_http_version 1.1;
+        gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+        ##
+        # Virtual Host Configs
+        ##
+
+        include /etc/nginx/conf.d/*.conf;
+        include /etc/nginx/sites-enabled/*;
+
+        upstream wordpress {
+            # Use TCP connection
+            server wordpress:9000;
+        }
+
+        map $uri $blogname {
+            ~^(?P<blogpath>/[^/]+/)files/(.*) $blogpath;
+        }
+
+        map $blogname $blogid {
+            default -999;
+            # Ref: http://wordpress.org/extend/plugins/nginx-helper/
+            # Uncomment and include the map configuration if required
+            # include /var/www/wordpress/wp-content/plugins/nginx-helper/map.conf;
+        }
+
+        map $http_accept $webp_suffix {
+            default "";
+            "~*webp" ".webp";
+        }
+
+        # FastCGI Cache config
+        fastcgi_cache_path /etc/nginx/cache levels=1:2 keys_zone=WPCACHE:100m inactive=60m;
+        fastcgi_cache_key "$scheme$request_method$host$request_uri";
+        fastcgi_cache_use_stale error timeout invalid_header http_500;
+        fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
+
+        server {
+            listen 80 default_server;
+            listen [::]:80 default_server;
+
+            server_name _;
+
+            root /var/www/html;
+            index index.php;
+
+            # Caching
+            set $skip_cache 0;
+
+            if ($request_method = POST) {
+                set $skip_cache 1;
+            }
+
+            if ($query_string != "") {
+                set $skip_cache 1;
+            }
+
+            if ($request_uri ~* "/wp-admin/|/xmlrpc.php|wp-.*.php|/feed/|index.php|sitemap(_index)?.xml") {
+                set $skip_cache 1;
+            }
+
+            if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_no_cache|wordpress_logged_in") {
+                set $skip_cache 1;
+            }
+
+            location ~ ^(/[^/]+)?/files/(.+) {
+                try_files /wp-content/blogs.dir/$blogid/files/$2 /wp-includes/ms-files.php?file=$2;
+                access_log off;
+                log_not_found off;
+                expires max;
+            }
+
+            location ^~ /blogs.dir {
+                internal;
+                alias /var/www/html/wp-content/blogs.dir;
+                access_log off;
+                log_not_found off;
+                expires max;
+            }
+
+            if (!-e $request_filename) {
+                rewrite /wp-admin$ http://$host$uri/ permanent;
+                rewrite ^(/[^/]+)?(/wp-.*) $2 last;
+                rewrite ^(/[^/]+)?(/.*\.php) $2 last;
+            }
+
+            location / {
+                try_files $uri $uri/ /index.php?$args;
+            }
+
+            location ~ \.php$ {
+                include fastcgi_params;
+                fastcgi_buffers 16 16k;
+                fastcgi_buffer_size 32k;
+                fastcgi_intercept_errors on;
+                fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_pass wordpress;
+
+                fastcgi_hide_header X-Powered-By;
+                fastcgi_cache_bypass $skip_cache;
+                fastcgi_no_cache $skip_cache;
+
+                fastcgi_cache WPCACHE;
+                fastcgi_cache_valid 200 60m;
+                fastcgi_read_timeout 240;
+                add_header X-FastCGI-Cache $upstream_cache_status;
+            }
+
+            location = /robots.txt {
+                access_log off;
+                log_not_found off;
+            }
+
+            # Security
+            location ^~ /wp-login.php {
+                deny all;
+            }
+
+            location = /xmlrpc.php {
+                deny all;
+            }
+
+            location ~ /\.(?!well-known).* {
+                deny all;
+            }
+
+            location ~* /(?:uploads|files)/.*\.php$ {
+                deny all;
+            }
+
+            # Image handling
+            location ~* \.(png|jpe?g|gif)$ {
+                add_header Vary Accept;
+                try_files $uri$webp_suffix $uri =404;
+            }
+
+            location ~* \.(css|js|ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
+                access_log off;
+                log_not_found off;
+                expires max;
+            }
+        }
+    }
