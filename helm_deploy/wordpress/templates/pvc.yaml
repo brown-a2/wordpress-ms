@@ -9,4 +9,5 @@ spec:
   resources:
     requests:
       storage: 10Gi
-  volumeName: wordpress-pv
+  volumeName: wordpress-ms-pv
+  storageClassName: local-path

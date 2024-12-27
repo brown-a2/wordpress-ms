@@ -1,11 +1,12 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: wordpress-pv
+  name: wordpress-ms-pv
 spec:
   capacity:
     storage: 20Gi
   accessModes:
     - ReadWriteOnce
+  storageClassName: local-path
   hostPath:
     path: /mnt/wordpress
