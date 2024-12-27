@@ -72,7 +72,7 @@ data:
 
         upstream wordpress {
             # Use TCP connection
-            server wordpress:9000;
+            server wordpress-service:9000;
         }
 
         map $uri $blogname {
