@@ -7,8 +7,8 @@ metadata:
     app: wordpress-ms
 spec:
   ports:
-    - port: 8080
-      targetPort: 80
+    - port: 9000
+      targetPort: 9000
   selector:
     app: wordpress-ms
   type: ClusterIP
