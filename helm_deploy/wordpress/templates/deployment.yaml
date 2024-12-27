@@ -22,7 +22,7 @@ spec:
             - containerPort: 9000
           envFrom:
             - secretRef:
-                name: wordpress-secrets
+                name: wordpress-ms-secrets
           volumeMounts:
             - name: wordpress-data
               mountPath: /var/www/html
