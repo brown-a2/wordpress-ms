@@ -51,7 +51,6 @@
         "wpackagist-plugin/query-monitor": "*",
         "wpackagist-plugin/wp-force-login": "*",
         "wpackagist-plugin/wps-hide-login": "*",
-        "ministryofjustice/wp-gov-uk-notify": "*",
         "wpackagist-plugin/advanced-custom-fields": "*",
         "wpackagist-plugin/ewww-image-optimizer": "*",
         "brown-a2/herrnaset": "dev-main",

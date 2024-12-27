@@ -1,26 +1,8 @@
-# Stage 1: Build Composer artifacts
-FROM composer:2 AS builder
-
-# Set work directory
-WORKDIR /app
-
-# Copy composer files
-COPY composer.json ./
-
-# Pass build arguments for credentials
-ARG COMPOSER_AUTH
-
-# Set environment variables for Composer credentials
-ENV COMPOSER_AUTH=${COMPOSER_AUTH}
-
-# Install Composer dependencies
-RUN composer install --no-dev --prefer-dist --optimize-autoloader
-
-# Stage 2: Base WordPress image
-FROM --platform=linux/arm/v7 wordpress:6.7.1-php8.3-fpm-alpine
+# Base WordPress image
+FROM wordpress:6.7.1-php8.3-fpm-alpine
 
 # Environment variables
-ENV PHP_INI_DIR /usr/local/etc/php
+ENV PHP_INI_DIR=/usr/local/etc/php
 
 # Install additional Alpine packages and wp-cli
 RUN set -eux; \
@@ -46,10 +28,10 @@ COPY opt/scripts/multisite-entrypoint.sh /usr/local/bin/multisite-entrypoint.sh
 COPY opt/scripts/config.sh /usr/local/bin/config.sh
 
 # Copy generated Composer artifacts and wp-content from the builder stage
-COPY --from=builder /app/vendor /usr/src/wordpress/wp-content/vendor
-COPY --from=builder /app/wordpress/wp-content/mu-plugins /usr/src/wordpress/wp-content/mu-plugins
-COPY --from=builder /app/wordpress/wp-content/plugins /usr/src/wordpress/wp-content/plugins
-COPY --from=builder /app/wordpress/wp-content/themes /usr/src/wordpress/wp-content/themes
+COPY /vendor /usr/src/wordpress/wp-content/vendor
+COPY /wordpress/wp-content/mu-plugins /usr/src/wordpress/wp-content/mu-plugins
+COPY /wordpress/wp-content/plugins /usr/src/wordpress/wp-content/plugins
+COPY /wordpress/wp-content/themes /usr/src/wordpress/wp-content/themes
 
 # Create new user to run the container as non-root
 RUN chown www-data:www-data /usr/local/bin/docker-entrypoint.sh

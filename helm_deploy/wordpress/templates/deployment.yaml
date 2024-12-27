@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: wordpress
-          image: browna2/ox-build-wordpress:latest
+          image: browna2/wordpress-ms:6.7.1-php8.3-fpm-alpine
           ports:
             - containerPort: 9000
           envFrom:
@@ -66,7 +66,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:10.5
+          image: mariadb:10.11
           ports:
             - containerPort: 3306
           envFrom:
