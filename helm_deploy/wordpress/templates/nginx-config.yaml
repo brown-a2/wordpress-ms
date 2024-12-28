@@ -98,8 +98,8 @@ data:
         fastcgi_ignore_headers Cache-Control Expires Set-Cookie;
 
         server {
-            listen 80 default_server;
-            listen [::]:80 default_server;
+            listen 8080 default_server;
+            listen [::]:8080 default_server;
 
             server_name _;
 
