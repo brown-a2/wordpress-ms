@@ -174,9 +174,9 @@ data:
             }
 
             # Security
-            location ^~ /wp-login.php {
-                deny all;
-            }
+            # location ^~ /wp-login.php {
+            #     deny all;
+            # }
 
             location = /xmlrpc.php {
                 deny all;
