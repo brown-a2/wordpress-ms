@@ -21,6 +21,7 @@ wp config set S3_UPLOADS_SECRET "\$_SERVER['S3_UPLOADS_SECRET']" --raw
 wp config set S3_UPLOADS_USE_INSTANCE_PROFILE "\$_SERVER['S3_UPLOADS_USE_INSTANCE_PROFILE']" --raw
 wp config set QM_ENABLE_CAPS_PANEL true --raw
 wp config set WP_CACHE true --raw
+wp config set MYSQL_CLIENT_FLAGS 0 --raw
 
 #WP core install
 wp core multisite-install --title="Ox-Build Multisite Platform" \
