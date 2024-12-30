@@ -65,7 +65,7 @@ spec:
     spec:
       containers:
         - name: mariadb
-          image: mariadb:10.5
+          image: mariadb:10.11
           ports:
             - containerPort: 3306
           envFrom:
@@ -74,8 +74,14 @@ spec:
           volumeMounts:
             - name: mariadb-data
               mountPath: /var/lib/mysql
+            - name: mariadb-vol-config
+              mountPath: /etc/mysql/conf.d/wpms.cnf
+              subPath: my.cnf
 
       volumes:
         - name: mariadb-data
           persistentVolumeClaim:
             claimName: mariadb-data-pvc
+        - name: mariadb-vol-config
+          configMap:
+            name: mariadb-config
