@@ -7,8 +7,12 @@ metadata:
     app: wordpress-ms
 spec:
   ports:
-    - port: 8080
+    - name: nginx
+      port: 8080
       targetPort: 8080
+    - name: php-fpm
+      port: 9000
+      targetPort: 9000
   selector:
     app: wordpress-ms
   type: ClusterIP
