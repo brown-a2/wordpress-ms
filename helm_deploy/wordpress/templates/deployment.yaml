@@ -75,8 +75,8 @@ spec:
             - name: mariadb-data
               mountPath: /var/lib/mysql
             - name: mariadb-vol-config
-              mountPath: /etc/mysql/conf.d/wpms.cnf
-              subPath: my.cnf
+              mountPath: /etc/mysql/conf.d
+              subPath: wpms.cnf
 
       volumes:
         - name: mariadb-data
