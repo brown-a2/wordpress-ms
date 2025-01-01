@@ -3,7 +3,7 @@ env: "prod"
 ## @param Manage replica count
 ##
 replicaCount:
-  prod: 2
+  prod: 3
 
 ## @param Manage traffic/domains via NGINX ingress
 ##
