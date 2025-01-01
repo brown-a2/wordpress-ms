@@ -6,7 +6,7 @@ metadata:
   labels:
     app: wordpress-ms
 spec:
-  replicas: 2
+  replicas: {{ .Values.replicaCount.prod }}
   selector:
     matchLabels:
       app: wordpress-ms
