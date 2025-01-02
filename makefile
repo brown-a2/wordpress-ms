@@ -18,6 +18,7 @@ build:
 	rm -rf wordpress_data
 	./bin/build.sh
 
+### Build and push
 buildprod:
 	chmod +x bin/build-k8s.sh && \
 	./bin/build-k8s.sh
