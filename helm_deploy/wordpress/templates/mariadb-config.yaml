@@ -11,3 +11,4 @@ data:
 
     [client]
     ssl=0
+    ssl-mode=DISABLED
