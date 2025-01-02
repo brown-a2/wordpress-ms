@@ -7,7 +7,7 @@ ENV PHP_INI_DIR=/usr/local/etc/php
 RUN apk update && apk add --no-cache \
     less \
     vim \
-    mariadb-client=10.11.2-r0 \
+    mysql-client \
     htop \
     libjpeg-turbo-utils && \
     apk cache clean
