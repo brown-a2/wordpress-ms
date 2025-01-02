@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Disable MySQL SSL for WP-CLI
+export MYSQL_SSL_CA=""
+export MYSQL_SSL_KEY=""
+export MYSQL_SSL_CERT=""
+
 # Define settings in wp-config.php
 wp config set MULTISITE true --raw
 wp config set WP_ALLOW_MULTISITE true --raw
