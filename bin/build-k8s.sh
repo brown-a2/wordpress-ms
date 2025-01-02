@@ -19,6 +19,7 @@ docker buildx build \
   -t browna2/wordpress-ms:$TAG \
   -f prod/wordpress.dockerfile \
   . \
+  --no-cache \
   --load
 
 # Push the Docker image to the registry
