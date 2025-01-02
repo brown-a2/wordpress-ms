@@ -4,16 +4,23 @@ FROM wordpress:6.7.1-php8.3-fpm-alpine
 # Environment variables
 ENV PHP_INI_DIR=/usr/local/etc/php
 
-# Install additional Alpine packages and wp-cli
-RUN set -eux; \
-    apk update && \
-    apk add --no-cache less vim mysql-client htop libjpeg-turbo-utils && \
-    curl -o /usr/local/bin/wp https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar && \
-    chmod +x /usr/local/bin/wp && \
-    addgroup -g 1001 wp && \
-    adduser -G wp -g "WordPress User" -s /bin/sh -D wp && \
-    adduser wp www-data && \
+RUN apk update && apk add --no-cache \
+    less \
+    vim \
+    mysql-client \
+    htop \
+    libjpeg-turbo-utils && \
     apk cache clean
+
+# Download and set up WP-CLI
+RUN curl -o /usr/local/bin/wp https://github.com/wp-cli/wp-cli/releases/download/v2.8.1/wp-cli.phar && \
+    chmod +x /usr/local/bin/wp
+
+# Create a 'wp' user and group
+RUN addgroup -g 1001 wp && \
+    adduser -G wp -g "WordPress User" -s /bin/sh -D wp && \
+    adduser wp www-data
+
 
 # Add PHP multisite supporting files
 COPY opt/php/load.php /usr/src/wordpress/wp-content/mu-plugins/load.php

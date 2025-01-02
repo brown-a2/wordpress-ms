@@ -5,6 +5,9 @@ metadata:
 data:
   wpms.cnf: |
     [mysqld]
-    skip-ssl
-    ssl = 0
-    require_secure_transport = OFF
+    skip-ssl=1
+    ssl=0
+    require_secure_transport=OFF
+
+    [client]
+    ssl=0
