@@ -15,13 +15,6 @@ RUN set -eux; \
     adduser wp www-data && \
     apk cache clean
 
-# Install MariaDB client tools and create symlinks to MySQL tools
-RUN rm -f /usr/bin/mysqlcheck && \
-    ln -sf /usr/bin/mariadb-check /usr/bin/mysqlcheck && \
-    ln -sf /usr/bin/mariadb-dump /usr/bin/mysqldump && \
-    ln -sf /usr/bin/mariadb-exec /usr/bin/mysqldumpslow && \
-    ln -sf /usr/bin/mariadb-show /usr/bin/mysqlshow
-
 # Add PHP multisite supporting files
 COPY opt/php/load.php /usr/src/wordpress/wp-content/mu-plugins/load.php
 COPY opt/php/application.php /usr/src/wordpress/wp-content/mu-plugins/application.php
