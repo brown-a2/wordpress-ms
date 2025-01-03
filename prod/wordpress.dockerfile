@@ -15,7 +15,7 @@ RUN set -eux; \
     adduser wp www-data && \
     apk cache clean
 
-RUN ln -sf /usr/bin/mariadb-check /usr/bin/mysqlcheck
+RUN rm -f /usr/bin/mysqlcheck
 
 # Add PHP multisite supporting files
 COPY opt/php/load.php /usr/src/wordpress/wp-content/mu-plugins/load.php
