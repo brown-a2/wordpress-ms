@@ -29,7 +29,6 @@ wp config set FORCE_SSL_ADMIN false --raw --allow-root
 wp config set QM_ENABLE_CAPS_PANEL true --raw --allow-root
 wp config set WP_CACHE true --raw --allow-root
 wp config set WP_TIMEZONE 'Europe/London' --raw --allow-root
-wp config set MYSQL_CLIENT_FLAGS 0 --raw --allow-root
 
 # WP core install
 wp core multisite-install --title="WordPress MS Build" \
