@@ -56,9 +56,6 @@ wp core multisite-install --title="WordPress MS Build" \
 # Run DB check and update
 wp core update-db --network --url="${SERVER_NAME}"
 
-# Activate greater capabilities for Query Monitor plugin
-wp qm enable
-
 # Delete default installed core themes and plugins
 wp theme delete twentytwentythree
 
