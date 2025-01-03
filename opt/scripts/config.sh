@@ -1,10 +1,5 @@
 #!/bin/bash
 
-# Disable MySQL SSL for WP-CLI
-export MYSQL_SSL_CA=""
-export MYSQL_SSL_KEY=""
-export MYSQL_SSL_CERT=""
-
 # Define settings in wp-config.php
 wp config set MULTISITE true --raw
 wp config set WP_ALLOW_MULTISITE true --raw
@@ -28,7 +23,7 @@ wp config set QM_ENABLE_CAPS_PANEL true --raw
 wp config set WP_CACHE true --raw
 
 #WP core install
-wp core multisite-install --title="Ox-Build Multisite Platform" \
+wp core multisite-install --title="WordPress MS Build" \
     --admin_user="${WORDPRESS_ADMIN_USER}" \
     --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
     --admin_password="${WORDPRESS_ADMIN_PASSWORD}" \
