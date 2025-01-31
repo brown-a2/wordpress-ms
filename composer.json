@@ -53,6 +53,7 @@
         "wpackagist-plugin/wps-hide-login": "*",
         "wpackagist-plugin/advanced-custom-fields": "*",
         "wpackagist-plugin/ewww-image-optimizer": "*",
+	"wpackagist-plugin/wp-force-ssl":"*",
         "brown-a2/herrnaset": "dev-main",
         "brown-a2/ibento": "dev-main",
         "brown-a2/totoro-components": "dev-main",
