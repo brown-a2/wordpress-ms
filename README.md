@@ -4,7 +4,8 @@ This repository provides all the code required to run an instance of WordPress m
 
 ## Deploy to a kubernetes environment
 
-This uses Helm charts to manage kubernetes manifest files. This repo is used to deploy infrastructure changes (ie helm chart/kubernetes changes) and changes to the application, as it pulls in the latest version of the OxBuild theme and plugins.
+This uses Helm charts to manage kubernetes manifest files. This repo is used to deploy infrastructure changes (ie helm chart/kubernetes changes) and changes to the application, as it pulls in the latest version of the 
+the theme and plugins.
 
 To deploy to one of our environments, push a code change to one of the corresponding branches in this repo which will trigger GitActions that deploy the code into the kubernetes cluster.
 

@@ -106,6 +106,20 @@ data:
             root /var/www/html;
             index index.php;
 
+            # Detect HTTPS from the reverse proxy (Cloudflare, Traefik, etc.)
+            set $https_on "off";
+            if ($http_x_forwarded_proto = "https") {
+                set $https_on "on";
+            }
+
+            # Force HTTPS on WordPress requests
+            location / {
+                if ($https_on = "off") {
+                    return 301 https://$host$request_uri;
+                }
+                try_files $uri $uri/ /index.php?$args;
+            }
+            
             # Caching
             set $skip_cache 0;
 
