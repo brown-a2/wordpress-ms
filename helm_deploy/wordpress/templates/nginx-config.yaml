@@ -160,10 +160,6 @@ data:
                 rewrite ^(/[^/]+)?(/.*\.php) $2 last;
             }
 
-            location / {
-                try_files $uri $uri/ /index.php?$args;
-            }
-
             location ~ \.php$ {
                 include fastcgi_params;
                 fastcgi_buffers 16 16k;
