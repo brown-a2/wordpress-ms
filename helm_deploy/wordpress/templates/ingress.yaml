@@ -8,6 +8,10 @@ metadata:
     traefik.ingress.kubernetes.io/router.entrypoints: web
 spec:
   ingressClassName: traefik
+  tls:
+    - hosts:
+        - totoro-ox.net
+      secretName: cloudflare-origin-cert
   rules:
     {{- if eq .Values.env "prod" }}
       {{- range .Values.ingress.hosts }}
@@ -24,3 +28,4 @@ spec:
       {{- end }}
     {{- end }}
 {{- end }}
+
