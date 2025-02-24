@@ -11,5 +11,6 @@ ingress:
   enabled: true
   hosts:
     - name: totoro-ox.net
+    - name: www.totoro-ox.net
     - name: events.totoro-ox.net
     - name: travel.totoro-ox.net
