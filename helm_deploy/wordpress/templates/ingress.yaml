@@ -11,7 +11,10 @@ spec:
   tls:
     - hosts:
         - totoro-ox.net
-      secretName: cloudflare-origin-cert
+      secretName: totoro-ox-cert
+    - hosts:
+        - www.totoro-ox.net
+      secretName: totoro-ox-www-cert
   rules:
     {{- if eq .Values.env "prod" }}
       {{- range .Values.ingress.hosts }}
