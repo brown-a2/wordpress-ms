@@ -11,10 +11,10 @@ spec:
   tls:
     - hosts:
         - totoro-ox.net
-      secretName: totoro-ox-cert
+      secretName: totoro-net-cert
     - hosts:
         - www.totoro-ox.net
-      secretName: totoro-ox-www-cert
+      secretName: totoro-net-www-cert
   rules:
     {{- if eq .Values.env "prod" }}
     {{- range .Values.ingress.hosts }}
