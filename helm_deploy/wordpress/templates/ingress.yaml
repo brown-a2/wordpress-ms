@@ -6,6 +6,7 @@ metadata:
   namespace: wordpress-ms-prod
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
+    cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
   ingressClassName: traefik
   tls:
