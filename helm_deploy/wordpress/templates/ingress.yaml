@@ -7,6 +7,8 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: web, websecure
     cert-manager.io/cluster-issuer: "letsencrypt-production"
+    cert-manager.io/issuer-kind: ClusterIssuer
+    cert-manager.io/issuer-name: letsencrypt-production
 spec:
   ingressClassName: traefik
   tls:
