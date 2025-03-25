@@ -10,7 +10,7 @@ composer install --no-dev --prefer-dist --optimize-autoloader
 TIMESTAMP=$(date +%Y%m%d%H%M%S)
 
 # Define the tag with the timestamp appended
-TAG="6.7.1-php8.3-fpm-alpine-$TIMESTAMP"
+TAG="6.7.2-php8.3-fpm-alpine-$TIMESTAMP"
 
 # Build the Docker image
 docker buildx build \

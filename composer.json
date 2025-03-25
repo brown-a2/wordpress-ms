@@ -24,10 +24,6 @@
         },
         {
             "type": "vcs",
-            "url": "https://github.com/ministryofjustice/wp-gov-uk-notify"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/ministryofjustice/wp-s3-uploads"
         },
         {
@@ -53,7 +49,7 @@
         "wpackagist-plugin/wps-hide-login": "*",
         "wpackagist-plugin/advanced-custom-fields": "*",
         "wpackagist-plugin/ewww-image-optimizer": "*",
-	"wpackagist-plugin/wp-force-ssl":"*",
+	"wpackagist-plugin/ssl-insecure-content-fixer":"*",
         "brown-a2/herrnaset": "dev-main",
         "brown-a2/ibento": "dev-main",
         "brown-a2/totoro-components": "dev-main",
@@ -66,7 +62,6 @@
         "installer-paths": {
             "wordpress/wp-content/mu-plugins/{$name}/": [
                 "type:wordpress-muplugin",
-                "ministryofjustice/wp-gov-uk-notify",
                 "ministryofjustice/wp-s3-uploads"
             ],
             "wordpress/wp-content/plugins/{$name}/": [
