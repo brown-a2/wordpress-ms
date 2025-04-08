@@ -25,6 +25,16 @@ wp config set WP_ENVIRONMENT_TYPE "\$_SERVER['WP_ENVIRONMENT_TYPE']" --raw
 wp config set AUTOMATIC_UPDATER_DISABLED true --raw
 wp config set FORCE_SSL_ADMIN false --raw
 
+# **SMTP Config**
+wp config set SMTP_HOST "\$_SERVER['SMTP_HOST']" --raw
+wp config set SMTP_PORT "\$_SERVER['SMTP_PORT']" --raw
+wp config set SMTP_AUTH "filter_var(\$_SERVER['SMTP_AUTH'], FILTER_VALIDATE_BOOLEAN)" --raw
+wp config set SMTP_SECURE "\$_SERVER['SMTP_SECURE']" --raw
+wp config set SMTP_USERNAME "\$_SERVER['SMTP_USERNAME']" --raw
+wp config set SMTP_PASSWORD "\$_SERVER['SMTP_PASSWORD']" --raw
+wp config set SMTP_FROM "no-reply@totoro-ox.net"
+wp config set SMTP_FROM_NAME "Totoro Mailer"
+
 # **S3 Uploads Configuration**
 # Configure the S3 settings for uploads, including the bucket, region, and access credentials
 wp config set S3_UPLOADS_BUCKET "\$_SERVER['S3_UPLOADS_BUCKET']" --raw
@@ -60,3 +70,4 @@ wp core update-db --network --url="${SERVER_NAME}"
 wp theme delete twentytwentythree
 
 exec "$@"
+

@@ -5,6 +5,17 @@ env: "prod"
 replicaCount:
   prod: 1
 
+## @param WP,SMTP
+wordpress:
+  extraEnvVars:
+    smtp:
+      host: email-smtp.eu-west-2.amazonaws.com 
+      port: "587"
+      auth: "true"
+      secure: tls
+      from: no-reply@totoro-ox.net
+      fromName: "Totoro Mailer"
+
 ## @param Manage traffic/domains via NGINX ingress
 ##
 ingress:
@@ -14,3 +25,4 @@ ingress:
     - name: www.totoro-ox.net
     - name: events.totoro-ox.net
     - name: travel.totoro-ox.net
+

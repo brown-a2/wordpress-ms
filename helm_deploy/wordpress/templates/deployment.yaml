@@ -17,10 +17,12 @@ spec:
     spec:
       containers:
         - name: wordpress
-          image: browna2/wordpress-ms:6.7.2-php8.3-fpm-alpine-20250326113858
+          image: browna2/wordpress-ms:6.7.2-php8.3-fpm-alpine-20250408225023
           ports:
             - containerPort: 9000
           envFrom:
+            - configMapRef:
+                name: wordpress-ms-smtp-config
             - secretRef:
                 name: wordpress-ms-secrets
           volumeMounts:
@@ -91,3 +93,4 @@ spec:
         - name: mariadb-vol-config
           configMap:
             name: mariadb-config
+

@@ -47,3 +47,4 @@ ENTRYPOINT ["/usr/local/bin/multisite-entrypoint.sh"]
 
 # Run as non-root user
 USER www-data
+
