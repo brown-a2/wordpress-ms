@@ -10,7 +10,7 @@ composer install --no-dev --prefer-dist --optimize-autoloader
 TIMESTAMP=$(date +%Y%m%d%H%M%S)
 
 # Define the tag with the timestamp appended
-TAG="6.7.2-php8.3-fpm-alpine-$TIMESTAMP"
+TAG="6.8.1-php8.3-fpm-alpine-$TIMESTAMP"
 
 # Build the Docker image
 docker buildx build \
@@ -24,3 +24,4 @@ docker buildx build \
 
 # Push the Docker image to the registry
 docker push browna2/wordpress-ms:$TAG
+
