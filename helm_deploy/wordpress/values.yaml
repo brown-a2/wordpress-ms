@@ -3,13 +3,13 @@ env: "prod"
 ## @param Manage replica count
 ##
 replicaCount:
-  prod: 1
+  prod: 2
 
 ## @param WP,SMTP
 wordpress:
   extraEnvVars:
     smtp:
-      host: email-smtp.eu-west-2.amazonaws.com 
+      host: email-smtp.eu-west-2.amazonaws.com
       port: "587"
       auth: "true"
       secure: tls
@@ -25,4 +25,3 @@ ingress:
     - name: www.totoro-ox.net
     - name: events.totoro-ox.net
     - name: travel.totoro-ox.net
-
