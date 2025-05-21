@@ -7,6 +7,5 @@ sed "$ i /usr/local/bin/config.sh" /usr/local/bin/docker-entrypoint.sh > /tmp/do
 cat /tmp/docker-entrypoint.sh > /usr/local/bin/docker-entrypoint.sh
 
 # Execute the modified docker-entrypoint.sh
-PHP_FPM_BIN=$(command -v php-fpm)
-/usr/local/bin/docker-entrypoint.sh "$PHP_FPM_BIN"
+/usr/local/bin/docker-entrypoint.sh "/usr/local/sbin/php-fpm"
 
