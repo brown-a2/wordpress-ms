@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: wordpress
-          image: browna2/wordpress-ms:6.8.1-php8.3-fpm-alpine-20250509224818
+          image: browna2/wordpress-ms:6.8.1-php8.3-fpm-alpine-20250521214756
           ports:
             - containerPort: 9000
           envFrom:
