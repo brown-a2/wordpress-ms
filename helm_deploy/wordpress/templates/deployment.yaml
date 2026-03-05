@@ -21,14 +21,18 @@ spec:
           ports:
             - containerPort: 9000
           readinessProbe:
-            tcpSocket:
-              port: 9000
+            exec:
+              command:
+                - php-fpm
+                - -t
             initialDelaySeconds: 10
             periodSeconds: 5
             failureThreshold: 6
           livenessProbe:
-            tcpSocket:
-              port: 9000
+            exec:
+              command:
+                - php-fpm
+                - -t
             initialDelaySeconds: 20
             periodSeconds: 10
             failureThreshold: 3
