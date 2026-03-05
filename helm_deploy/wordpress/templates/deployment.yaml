@@ -15,6 +15,13 @@ spec:
       labels:
         app: wordpress-ms
     spec:
+      initContainers:
+        - name: wordpress-init
+          image: browna2/wordpress-ms:6.9.1-php8.5-fpm-alpine-20260305212342
+          command: ["sh", "-c", "cp -rn /var/www/html/. /wordpress-data/"]
+          volumeMounts:
+            - name: wordpress-data
+              mountPath: /wordpress-data
       containers:
         - name: wordpress
           image: browna2/wordpress-ms:6.9.1-php8.5-fpm-alpine-20260305212342
@@ -45,7 +52,7 @@ spec:
             - name: wordpress-data
               mountPath: /var/www/html
         - name: nginx
-          image: nginx:1.29.5-alpine
+          image: nginx:1.27-alpine
           ports:
             - containerPort: 8080
           readinessProbe:
