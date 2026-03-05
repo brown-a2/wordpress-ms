@@ -20,6 +20,18 @@ spec:
           image: browna2/wordpress-ms:6.9.1-php8.5-fpm-alpine-20260305212342
           ports:
             - containerPort: 9000
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+            failureThreshold: 3
           envFrom:
             - configMapRef:
                 name: wordpress-ms-smtp-config
@@ -29,9 +41,21 @@ spec:
             - name: wordpress-data
               mountPath: /var/www/html
         - name: nginx
-          image: nginx:latest
+          image: nginx:1.27-alpine
           ports:
             - containerPort: 8080
+          readinessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: 8080
+            initialDelaySeconds: 25
+            periodSeconds: 10
+            failureThreshold: 3
           volumeMounts:
             - name: nginx-config-volume
               mountPath: /etc/nginx/nginx.conf
