@@ -28,7 +28,6 @@ spec:
           volumeMounts:
             - name: wordpress-data
               mountPath: /var/www/html
-
         - name: nginx
           image: nginx:latest
           ports:
@@ -39,58 +38,14 @@ spec:
               subPath: nginx.conf
             - name: wordpress-data
               mountPath: /var/www/html
-
       volumes:
         - name: wordpress-data
           emptyDir: {}
         - name: nginx-config-volume
           configMap:
             name: nginx-config
-
   strategy:
     type: RollingUpdate
     rollingUpdate:
-      maxSurge: 1        # Max number of pods created above the desired number of replicas
-      maxUnavailable: 1  # Max number of pods that can be unavailable during the update
-
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mariadb
-  namespace: wordpress-ms-prod
-  labels:
-    app: mariadb
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: mariadb
-  template:
-    metadata:
-      labels:
-        app: mariadb
-    spec:
-      containers:
-        - name: mariadb
-          image: mariadb:10.11
-          ports:
-            - containerPort: 3306
-          envFrom:
-            - secretRef:
-                name: mariadb-secrets
-          volumeMounts:
-            - name: mariadb-data
-              mountPath: /var/lib/mysql
-            - name: mariadb-vol-config
-              mountPath: /etc/mysql/conf.d/wpms.cnf
-              subPath: wpms.cnf
-
-      volumes:
-        - name: mariadb-data
-          persistentVolumeClaim:
-            claimName: mariadb-data-pvc
-        - name: mariadb-vol-config
-          configMap:
-            name: mariadb-config
-
+      maxSurge: 1
+      maxUnavailable: 1
