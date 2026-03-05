@@ -45,7 +45,7 @@ spec:
             - name: wordpress-data
               mountPath: /var/www/html
         - name: nginx
-          image: nginx:1.27-alpine
+          image: nginx:1.29.5-alpine
           ports:
             - containerPort: 8080
           readinessProbe:
