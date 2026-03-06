@@ -7,7 +7,7 @@ data:
   nginx.conf: |
     worker_processes auto;
 
-    pid /tmp/nginx.pid; # Changed from /var/run/nginx.pid
+    pid /tmp/nginx.pid;
     error_log  /var/log/nginx/error.log;
 
     include /etc/nginx/modules-enabled/*.conf;
@@ -17,10 +17,6 @@ data:
     }
 
     http {
-        ##
-        # Basic Settings
-        ##
-
         sendfile on;
         tcp_nopush on;
         types_hash_max_size 2048;
@@ -36,24 +32,11 @@ data:
         fastcgi_buffer_size 32k;
 
         client_max_body_size 128M;
-        
-        ##
-        # SSL Settings
-        ##
 
-        ssl_protocols TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+        ssl_protocols TLSv1.2 TLSv1.3;
         ssl_prefer_server_ciphers on;
 
-        ##
-        # Logging Settings
-        ##
-
-        # access_log /var/log/nginx/access.log;
         error_log /var/log/nginx/error.log;
-
-        ##
-        # Gzip Settings
-        ##
 
         gzip on;
         gzip_vary on;
@@ -63,15 +46,10 @@ data:
         gzip_http_version 1.1;
         gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
 
-        ##
-        # Virtual Host Configs
-        ##
-
         include /etc/nginx/conf.d/*.conf;
         include /etc/nginx/sites-enabled/*;
 
         upstream wordpress {
-            # Use TCP connection
             server 127.0.0.1:9000;
         }
 
@@ -81,9 +59,6 @@ data:
 
         map $blogname $blogid {
             default -999;
-            # Ref: http://wordpress.org/extend/plugins/nginx-helper/
-            # Uncomment and include the map configuration if required
-            # include /var/www/wordpress/wp-content/plugins/nginx-helper/map.conf;
         }
 
         map $http_accept $webp_suffix {
@@ -91,7 +66,6 @@ data:
             "~*webp" ".webp";
         }
 
-        # FastCGI Cache config
         fastcgi_cache_path /etc/nginx/cache levels=1:2 keys_zone=WPCACHE:100m inactive=60m;
         fastcgi_cache_key "$scheme$request_method$host$request_uri";
         fastcgi_cache_use_stale error timeout invalid_header http_500;
@@ -106,7 +80,6 @@ data:
             root /var/www/html;
             index index.php;
 
-            # Caching
             set $skip_cache 0;
 
             if ($request_method = POST) {
@@ -152,6 +125,7 @@ data:
 
             location ~ \.php$ {
                 include fastcgi_params;
+                fastcgi_param SERVER_NAME $host;  # FIX: pass actual domain not server_name _
                 fastcgi_buffers 16 16k;
                 fastcgi_buffer_size 32k;
                 fastcgi_intercept_errors on;
@@ -173,11 +147,6 @@ data:
                 log_not_found off;
             }
 
-            # Security
-            # location ^~ /wp-login.php {
-            #     deny all;
-            # }
-
             location = /xmlrpc.php {
                 deny all;
             }
@@ -190,7 +159,6 @@ data:
                 deny all;
             }
 
-            # Image handling
             location ~* \.(png|jpe?g|gif)$ {
                 add_header Vary Accept;
                 try_files $uri$webp_suffix $uri =404;
