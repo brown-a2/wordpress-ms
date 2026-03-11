@@ -1,4 +1,4 @@
-FROM --platform=linux/arm/v7 nginxinc/nginx-unprivileged:latest
+FROM --platform=linux/arm64 nginxinc/nginx-unprivileged:latest
 
 # Extend NGINX configurations to support WordPress Multisite
 # and apply our own custom configurations
