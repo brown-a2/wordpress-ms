@@ -1,5 +1,5 @@
 # Base WordPress image
-FROM wordpress:6.9.1-php8.5-fpm-alpine
+FROM wordpress:6.9.3-php8.5-fpm-alpine
 
 # Environment variables
 ENV PHP_INI_DIR=/usr/local/etc/php
