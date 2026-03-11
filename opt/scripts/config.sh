@@ -9,7 +9,7 @@ wp config set MULTISITE true --raw
 wp config set WP_ALLOW_MULTISITE true --raw
 wp config set BLOG_ID_CURRENT_SITE 1 --raw
 wp config set SITE_ID_CURRENT_SITE 1 --raw
-wp config set SUBDOMAIN_INSTALL false --raw
+wp config set SUBDOMAIN_INSTALL true --raw
 wp config set DOMAIN_CURRENT_SITE "\$_SERVER['SERVER_NAME']" --raw
 
 # **Cookie and Path Settings**
@@ -23,7 +23,7 @@ wp config set SITECOOKIEPATH "/"
 # Define environment type and manage automatic updates and SSL settings for admin
 wp config set WP_ENVIRONMENT_TYPE "\$_SERVER['WP_ENVIRONMENT_TYPE']" --raw
 wp config set AUTOMATIC_UPDATER_DISABLED true --raw
-wp config set FORCE_SSL_ADMIN false --raw
+wp config set FORCE_SSL_ADMIN true --raw
 
 # **SMTP Config**
 wp config set SMTP_HOST "\$_SERVER['SMTP_HOST']" --raw

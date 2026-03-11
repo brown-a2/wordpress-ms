@@ -114,7 +114,7 @@ data:
             }
 
             if (!-e $request_filename) {
-                rewrite /wp-admin$ http://$host$uri/ permanent;
+                rewrite /wp-admin$ https://$host$uri/ permanent;
                 rewrite ^(/[^/]+)?(/wp-.*) $2 last;
                 rewrite ^(/[^/]+)?(/.*\.php) $2 last;
             }
@@ -130,6 +130,8 @@ data:
                 fastcgi_buffer_size 32k;
                 fastcgi_intercept_errors on;
                 fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+                fastcgi_param HTTPS on;
+                fastcgi_param HTTP_X_FORWARDED_PROTO $http_x_forwarded_proto;
                 fastcgi_pass wordpress;
 
                 fastcgi_hide_header X-Powered-By;
