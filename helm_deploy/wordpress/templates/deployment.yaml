@@ -24,7 +24,7 @@ spec:
               mountPath: /wordpress-data
       containers:
         - name: wordpress
-          image: browna2/wordpress-ms:6.9.1-php8.5-fpm-alpine-20260305212342
+          image: browna2/wordpress-ms:6.9.4-php8.5-fpm-alpine-20260313210652
           ports:
             - containerPort: 9000
           readinessProbe:
