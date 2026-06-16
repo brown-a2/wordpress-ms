@@ -9,13 +9,6 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-production"
 spec:
   ingressClassName: traefik
-  tls:
-    - hosts:
-        - totoro-ox.net
-      secretName: totoro-net-cert
-    - hosts:
-        - www.totoro-ox.net
-      secretName: totoro-net-www-cert
   rules:
     {{- if eq .Values.env "prod" }}
       {{- range .Values.ingress.hosts }}
