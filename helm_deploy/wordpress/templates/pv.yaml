@@ -2,6 +2,10 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: wordpress-ms-pv
+  annotations:
+    # Never let ArgoCD prune the data volume. Pruning forces Retain -> Released,
+    # which then cannot rebind and leaves the sync spinning (and risks data).
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   capacity:
     storage: 20Gi
@@ -9,5 +13,12 @@ spec:
     - ReadWriteOnce
   storageClassName: ""
   persistentVolumeReclaimPolicy: Retain
+  # Pre-bind to the PVC so the binding is deterministic and declarative.
+  # Without this, Kubernetes injects claimRef into the live PV at bind time,
+  # which ArgoCD then sees as a perpetual diff (live != git) and keeps
+  # re-syncing — the Application sits "Progressing" forever.
+  claimRef:
+    name: mariadb-data-pvc
+    namespace: wordpress-ms-prod
   hostPath:
     path: /mnt/wordpress

@@ -3,6 +3,10 @@ kind: PersistentVolumeClaim
 metadata:
   name: mariadb-data-pvc
   namespace: wordpress-ms-prod
+  annotations:
+    # Keep ArgoCD from pruning the bound claim; pruning would release the PV
+    # and stall the next sync on an unbindable volume.
+    argocd.argoproj.io/sync-options: Prune=false
 spec:
   accessModes:
     - ReadWriteOnce
