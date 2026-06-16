@@ -17,14 +17,14 @@ spec:
     spec:
       initContainers:
         - name: wordpress-init
-          image: browna2/wordpress-ms:7.0.0-php8.5-fpm-alpine-20260616221753
+          image: browna2/wordpress-ms:7.0.0-php8.5-fpm-alpine-20260616222917
           command: ["sh", "-c", "cp -rn /var/www/html/. /wordpress-data/"]
           volumeMounts:
             - name: wordpress-data
               mountPath: /wordpress-data
       containers:
         - name: wordpress
-          image: browna2/wordpress-ms:7.0.0-php8.5-fpm-alpine-20260616221753
+          image: browna2/wordpress-ms:7.0.0-php8.5-fpm-alpine-20260616222917
           ports:
             - containerPort: 9000
           readinessProbe:
