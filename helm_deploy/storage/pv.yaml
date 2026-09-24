@@ -5,7 +5,8 @@ metadata:
   annotations:
     # Never let ArgoCD prune the data volume. Pruning forces Retain -> Released,
     # which then cannot rebind and leaves the sync spinning (and risks data).
-    argocd.argoproj.io/sync-options: Prune=false
+    # Delete=false keeps the volume if the owning Application is ever deleted.
+    argocd.argoproj.io/sync-options: Prune=false,Delete=false
 spec:
   capacity:
     storage: 20Gi

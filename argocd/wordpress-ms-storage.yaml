@@ -1,0 +1,25 @@
+# Argo CD Application for the MariaDB data volume (PV + PVC).
+#
+# Kept separate from the wordpress-ms chart so that syncing a WordPress deploy
+# (image bumps, config changes) can never touch the database volume. A bound,
+# in-use PV/PVC cannot be deleted, so a Replace/Force sync on them hangs until
+# timeout and leaves them marked for deletion.
+#
+# Apply once with: kubectl apply -f argocd/wordpress-ms-storage.yaml
+#
+# Sync manually, and never with Replace or Force. There is deliberately no
+# resources-finalizer, so deleting this Application leaves the volume in place.
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wordpress-ms-storage
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/brown-a2/wordpress-ms
+    targetRevision: main
+    path: helm_deploy/storage
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wordpress-ms-prod
