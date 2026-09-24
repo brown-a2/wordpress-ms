@@ -123,6 +123,16 @@ data:
                 try_files $uri $uri/ /index.php?$args;
             }
 
+            # Regex locations match in file order, so these denies must come
+            # before the PHP handler or they never apply.
+            location ~ /\.(?!well-known).* {
+                deny all;
+            }
+
+            location ~* /(?:uploads|files)/.*\.php$ {
+                deny all;
+            }
+
             location ~ \.php$ {
                 include fastcgi_params;
                 fastcgi_param SERVER_NAME $host;  # FIX: pass actual domain not server_name _
@@ -153,17 +163,14 @@ data:
                 deny all;
             }
 
-            location ~ /\.(?!well-known).* {
-                deny all;
-            }
-
-            location ~* /(?:uploads|files)/.*\.php$ {
-                deny all;
-            }
-
             location ~* \.(png|jpe?g|gif)$ {
                 add_header Vary Accept;
                 try_files $uri$webp_suffix $uri =404;
+                # This block shadows the static assets block below for images,
+                # so it needs its own caching headers.
+                access_log off;
+                log_not_found off;
+                expires max;
             }
 
             location ~* \.(css|js|ogg|ogv|svg|svgz|eot|otf|woff|mp4|ttf|rss|atom|jpg|jpeg|gif|png|ico|zip|tgz|gz|rar|bz2|doc|xls|exe|ppt|tar|mid|midi|wav|bmp|rtf)$ {
